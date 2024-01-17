@@ -104,8 +104,8 @@ spec:
       fi  
     fi
 
-    bb-rp-install "drbd:{{ .Values.global.modulesImages.digests.registrypackages.drbd }}"
-    bb-yum-install make gcc bind-utils patch
+    bb-rp-install "drbd:{{ .Values.global.modulesImages.digests.sdsDrbd.drbd }}"
+    bb-yum-install make gcc bind-utils patch mokutil
 
     attempt=0
     until SPAAS_IP="$(host -t A "$SPAAS_FQDN" "$CLUSTER_DNS" | awk '/has address/ { print $4 }')"

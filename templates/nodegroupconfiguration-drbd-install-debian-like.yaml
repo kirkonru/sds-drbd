@@ -101,8 +101,8 @@ spec:
       fi  
     fi
 
-    bb-rp-install "drbd:{{ .Values.global.modulesImages.digests.registrypackages.drbd }}"
-    bb-apt-install make gcc bind9-host patch
+    bb-rp-install "drbd:{{ .Values.global.modulesImages.digests.sdsDrbd.drbd }}"
+    bb-apt-install make gcc bind9-host patch mokutil
 
     attempt=0
     until SPAAS_IP="$(host -t A "$SPAAS_FQDN" "$CLUSTER_DNS" | awk '/has address/ { print $4 }')"
