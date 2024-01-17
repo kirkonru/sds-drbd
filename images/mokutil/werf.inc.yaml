@@ -1,0 +1,32 @@
+{{- $version := "0.6.0" }}
+{{- $image_version := $version | replace "." "-" }}
+---
+image: {{ $.ModuleName }}/{{ $.ImageName }}-{{ $image_version }}
+from: {{ $.Images.BASE_SCRATCH }}
+import:
+  - artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}
+    add: /
+    to: /
+    includePaths:
+      - mokutil
+      - install
+      - uninstall
+    before: setup
+docker:
+ w LABEL:
+    distro: all
+    version: all
+    mokutil: {{ $version }}
+---
+artifact: {{ $.ModuleName }}/{{ $.ImageName }}-artifact-{{ $image_version }}
+from: {{ $.Images.BASE_ALPINE }}
+git:
+  - add: /{{ $.ModulePath }}modules/007-{{ $.ModuleName }}/images/{{ $.ImageName }}/scripts
+    to: /
+    stageDependencies:
+      setup:
+        - '**/*'
+shell:
+  beforeInstall:
+    - apk add --no-cache mokutil={{ $version }}
+    - cp /usr/bin/mokutil /mokutil
