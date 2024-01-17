@@ -13,7 +13,7 @@ import:
       - uninstall
     before: setup
 docker:
- w LABEL:
+  LABEL:
     distro: all
     version: all
     mokutil: {{ $version }}
